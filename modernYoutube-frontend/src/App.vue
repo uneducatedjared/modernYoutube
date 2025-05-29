@@ -1,51 +1,54 @@
+<!-- App.vue -->
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import AppHeader from '@/components/mainPage/AppHeader.vue'
+import AppSidebar from '@/components/mainPage/AppSidebar.vue'
+import { useUIStore } from '@/stores/ui'
 
-const route = useRoute()
-const activeIndex = ref(route.path)
+const uiStore = useUIStore()
 </script>
 
 <template>
-  <el-container>
-    <el-header>
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-      >
-        <el-menu-item index="/">
-          <el-icon><HomeFilled /></el-icon>
-          首页
-        </el-menu-item>
-        <el-menu-item index="/about">
-          <el-icon><InfoFilled /></el-icon>
-          关于
-        </el-menu-item>
-      </el-menu>
-    </el-header>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
-  </el-container>
+  <div class="app-container">
+    <AppHeader />
+    
+    <div class="main-content">
+      <AppSidebar />
+      
+      <main class="content-area">
+        <!-- Your page content goes here -->
+        <!-- 根据需要在这里放置 router-view 或其他组件 -->
+      </main>
+    </div>
+  </div>
 </template>
 
-<style scoped lang="scss">
-.el-container {
-  min-height: 100vh;
-}
-
-.el-header {
+<style lang="scss">
+/* Basic reset or base styles */
+body {
+  margin: 0;
   padding: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 
-.el-menu {
-  border-bottom: none;
+.app-container {
+  display: grid;
+  grid-template-rows: 56px 1fr; /* Header height and remaining content */
+  height: 100vh;
+  overflow: hidden; /* Prevent scrolling on the main container */
 }
 
-.el-main {
-  padding: 20px;
+.main-content {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Sidebar width and main content */
+  overflow: hidden; /* Prevent main content from causing overflow */
+}
+
+.content-area {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto; /* Enable scrolling for the content area */
 }
 </style>
